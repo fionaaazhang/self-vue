@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //vue是通过Object.defineProperty()来实现数据劫持的
+
+        //对象的属性(property)和方法(methods)
+
+        //语法: Object.defineProperty(obj, prop, descriptor)  
+                //obj(对象) prop(Property 属性名) descriptor(描述符)
+
+        //Object.defineProperty()方法会直接在一个对象上定义一个新属性或者修改一个对象的现有属性, 并返回这个属性
+        //对象的属性描述符: 数据描写符和存取描写符
+            //描写符和存取符均具有的可选键值: 
+                congigurable: 为true时, 属性才能够改变和删除
+                enumerable: 为true是, 才能够被枚举, (object.keys 或者 for...in 遍历枚举)
+            //存取描述符同时具有的可选键值: 
+                get: 给属性提供getter方法, 访问属性时,这个方法会执行,默认undefined
+                set: 给属性提供setter方法, 属性被修改时, 触发执行该方法
+            //数据描述符同时具有的键值: 
+                value: 该属性对应的值
+                writable: 为true时, 才能被赋值运算符改变
+        var Girl= {}
+        var name = ''
+        Object.defineProperty(Girl, 'name', {
+            set: function(value){
+                name=value;
+                console.log(" I'm " + value)
+            },
+            get: function(){
+                return '<'+name + '>'
+            }
+        })
+        Girl.name = 'nora'  //改变属性值时触发 set
+        console.log(Girl.name)  //读取属性值时触发 get
+    </script>
+</body>
+</html>

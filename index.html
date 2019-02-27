@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- vue数据双向绑定的原理 -->
+    <!-- 实现最简单的数据双向绑定 -->
+
+    <!--S实现 v-on等事件指令  v-model双向数据绑定 {{}} -->
+    <div id="app">
+        <h2>{{title}}</h2>
+        <input v-model="name"> <br>
+        <button v-on:click="clickMe">点击事件</button>
+    </div>
+
+    <!-- vue实现数据双向绑定视同过数据劫持结合发布者-订阅者的模式来实现的 -->
+    <!-- 1.vue 是通过 Object.defineProperty()来实现数据劫持的 -->
+    <!-- 实现mvvm主要包含两个方面: 数据更新视图  视图变化更新数据 -->
+    <!-- 关键点在于data如何更新视图, 因为视图更新数据其实可以通过事件监听来实现 -->
+    <!-- 而数据更新会触发 Object.defineproperty()中的get函数,我们只要将需要更新的方法放在get方法里就可以实现view的更新 -->
+
+    <!-- 监听者Observer: 劫持并经停所有属性, 并通知订阅者 -->
+    <!-- 订阅者Watcher: 收到相关属性变化的通知, 并执行相关函数, 从而改变视图 -->
+    <!-- 订阅器dev: 收集订阅者, 在属性变化的时候执行对应订阅者的跟新函数, 显然订阅器需要一个容器,  -->
+              <!-- 这个容器就是list, 将这个容器植入到observer -->
+    <script>
+        new SelfVue({
+            el: '#app',
+            data: {
+                title: 'hello world',
+                name: 'nora'
+            },
+            methods: {
+                clickMe: function(){
+                    this.title = 'clickMe 事件触发'
+                }
+            },
+            mounted(){
+                setTimeout(()=>{
+                    this.title = 'mounted 里面的定时器触发'
+                }, 2000)
+               
+            }
+        })
+    </script>
+
+</body>
+
+</html>
